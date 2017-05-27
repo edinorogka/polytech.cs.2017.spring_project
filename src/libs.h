@@ -8,7 +8,7 @@
 #include <allegro5/allegro_audio.h>
 #include <time.h>
 #include <allegro5/allegro_acodec.h>
-
+#define STARS_ARRAY_SIZE 150
 enum MYKEYS {
 	KEY_LEFT, KEY_RIGHT
 };
