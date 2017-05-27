@@ -12,7 +12,7 @@
 enum MYKEYS {
 	KEY_LEFT, KEY_RIGHT
 };
-int star[STARS_ARRAY_SIZE][2] = { -1 };
+extern int star[STARS_ARRAY_SIZE][2];
 const float FPS = 60;
 const int SCREEN_W = 699;
 const int SCREEN_H = 466;
