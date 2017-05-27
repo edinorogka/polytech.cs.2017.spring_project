@@ -2,7 +2,7 @@
 void gen() {
 	int i;
 	int x;
-	{        int star[STARS_ARRAY_SIZE][2] = { -1 };
+	{        
 		if (count >= STARS_ARRAY_SIZE) {
 			count = 0;
 		}
