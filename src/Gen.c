@@ -10,7 +10,7 @@ int count = 0;
 \param  int star[STARS_ARRAY_SIZE][2] - матрица параметра звезд
 
 */
-void gen( int star[STARS_ARRAY_SIZE][2]) {
+void gen(int star[STARS_ARRAY_SIZE][2]) {
 	int i;
 	int x;
 	if (count >= STARS_ARRAY_SIZE) {
