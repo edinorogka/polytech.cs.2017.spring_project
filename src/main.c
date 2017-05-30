@@ -1,6 +1,7 @@
 #include "libs.h"
-#define STARS_ARRAY_SIZE 150
+#include "Header.h"
 //счётчик звёзд
+void gen();
 
 int main(int argc, char **argv)
 {
@@ -73,12 +74,7 @@ int main(int argc, char **argv)
         al_destroy_timer(timer);
         return -1;
     }
-    /*if (!al_reserve_samples(1)) {
-        fprintf(stderr, "failed to create audio!\n");
-        al_destroy_timer(timer);
-        return -1;
-    }*/
-
+    
     bouncer = al_load_bitmap("kek.png");
     int bouncer_W = al_get_bitmap_width(bouncer);
     int bouncer_H = al_get_bitmap_height(bouncer);
@@ -108,7 +104,7 @@ int main(int argc, char **argv)
     al_clear_to_color(al_map_rgb(0, 0, 0));
     al_flip_display();
     al_start_timer(timer);
-    gen();
+    gen(star);
     al_play_sample(music, 1.0, 0.0, 1.0, ALLEGRO_PLAYMODE_LOOP, NULL);
     while (!exit)
     {
@@ -121,7 +117,7 @@ int main(int argc, char **argv)
                 bouncer_x -= 5.0;
             }
 
-            if (key[KEY_RIGHT] && bouncer_x <= SCREEN_W - 5.0) {
+            if (key[KEY_RIGHT] && bouncer_x <= SCREEN_W - 70.0) {
                 bouncer_x += 5.0;
             }
 
@@ -171,15 +167,15 @@ int main(int argc, char **argv)
                 0);
 
 
-            //   al_draw_scaled_bitmap(bouncer,0, 20, al_get_bitmap_width(bouncer), al_get_bitmap_width(bouncer),
-            //   bouncer_x, bouncer_y, 85, 95, 0);
+               al_draw_scaled_bitmap(bouncer,0, 20, al_get_bitmap_width(bouncer), al_get_bitmap_width(bouncer),
+               bouncer_x, bouncer_y, 85, 95, 0);
             frames_count++;
             if (frames_count >= level)
             {
                 level--;
                 frames_count = 0;
                 if (life > 0)
-                    gen();
+                    gen( star);
             }
             if (life == 0) {
                 al_draw_textf(AllegroFont, al_map_rgb(255, 255, 255), SCREEN_W / 2, SCREEN_H / 2, ALLEGRO_ALIGN_CENTER, "GAME OVER!!! Total score: %i", star_c);
@@ -194,7 +190,7 @@ int main(int argc, char **argv)
                         star[i][0], star[i][1], 40, 40, 0);
 
                     if (life > 0)
-                        star[i][1] += 2;
+                        star[i][1] += 1;
                     int c = star[i][1] - bouncer_y;
                     if (c < 0)
                         c *= -1;
@@ -229,7 +225,5 @@ int main(int argc, char **argv)
     al_destroy_timer(timer);
     al_destroy_display(display);
     al_destroy_event_queue(event_queue);
-    al_destroy_sample(music);
-
     return 0;
 }
