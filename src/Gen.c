@@ -2,7 +2,7 @@
 *  @brief Функция, генерирующая падающие звезды
 *
 *
-*@author Larina Anna - anna_larina_@bk.ru \n
+*@author Larina Anna - anna_larina_99@bk.ru \n
 *@author Latyshewa Regina - reggamer@mail.ru*/
 #include "libs.h"
 int count = 0;

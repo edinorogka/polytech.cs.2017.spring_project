@@ -1,10 +1,21 @@
+/** @file main.c
+*  @brief Главная функция проекта
+*
+*  Главная функция проекта.В данной функции подключается библиотека Allegro5 и различные ее пакеты.Функция отвечает за работу дисплея .
+*  Работа программы строится на бесконечном цикле ,в процессе которого прорисовываютя различные элементы дисплея.
+*@author Larina Anna - anna_larina_99@bk.ru \n
+*@author Latyshewa Regina - reggamer@mail.ru*/
+
+/** \fn int main(int argc, char **argv)
+Работа программы строится на бесконечном цикле, в процессе которого прорисовываютя различные элементы дисплея.
+*/
 #include "libs.h"
-#include "Header.h"
-//счётчик звёзд
+
+//генерация звёзд
 void gen();
 
 int main(int argc, char **argv)
-{
+{//Инициализация различных механизмов библиотеки
     srand(time(NULL));
     ALLEGRO_SAMPLE *music = NULL;
     ALLEGRO_DISPLAY *display = NULL;
@@ -12,9 +23,9 @@ int main(int argc, char **argv)
     ALLEGRO_TIMER *timer = NULL;
     ALLEGRO_BITMAP *bouncer = NULL;
     float bouncer_x = SCREEN_W / 2.0 - BOUNCER_SIZE / 2.0;//позиция героя по x
-    float bouncer_y = SCREEN_H - 50.0 - BOUNCER_SIZE / 2.0;//по у
+    float bouncer_y = SCREEN_H - 50.0 - BOUNCER_SIZE / 2.0;//позиция героя по у
     bool key[2] = { false, false };
-    bool redraw = true; // чтобы не перерисовывалось каждый кадр
+    bool redraw = true; // чтобы не перерисовывался каждый кадр
     bool exit = false;
 
     if (!al_init()) {
@@ -53,14 +64,14 @@ int main(int argc, char **argv)
         al_destroy_timer(timer);
         return -1;
     }
-    bmp = al_load_bitmap("cosmos.jpeg");
+    bmp = al_load_bitmap("cosmos.jpeg");//Загрузка фонового изображения
     if (!bmp)
     {
         printf("ERROR Loading sprite:No file");
         return -1;
     }
 
-    image = al_load_bitmap("zvezda.png");
+    image = al_load_bitmap("zvezda.png");//Загрузка изображения падающего объекта (звездочки*)
     int image_W = al_get_bitmap_width(image);
     int image_H = al_get_bitmap_height(image);
 
@@ -75,7 +86,7 @@ int main(int argc, char **argv)
         return -1;
     }
     
-    bouncer = al_load_bitmap("kek.png");
+    bouncer = al_load_bitmap("kek.png");//Загрузка изображения главного героя (принцесски)
     int bouncer_W = al_get_bitmap_width(bouncer);
     int bouncer_H = al_get_bitmap_height(bouncer);
     if (!bouncer) {
@@ -105,10 +116,10 @@ int main(int argc, char **argv)
     al_flip_display();
     al_start_timer(timer);
     gen(star);
-    al_play_sample(music, 1.0, 0.0, 1.0, ALLEGRO_PLAYMODE_LOOP, NULL);
-    while (!exit)
+    
+    while (!exit)//начало бесконечного цикла
     {
-        ALLEGRO_EVENT ev;
+        ALLEGRO_EVENT ev;//Инициализация события
         al_wait_for_event(event_queue, &ev);
 
         if (ev.type == ALLEGRO_EVENT_TIMER) {
@@ -123,40 +134,39 @@ int main(int argc, char **argv)
 
             redraw = true;
         }
-        else if (ev.type == ALLEGRO_EVENT_DISPLAY_CLOSE) { //если нажму крестик
+		/*Далее идет одна из самых важных частей кода-обработка полученных координат мыши .*/
+        else if (ev.type == ALLEGRO_EVENT_DISPLAY_CLOSE) { //при нажатии на крестик происходит закрытие программы 
             break;
         }
-        else if (ev.type == ALLEGRO_EVENT_KEY_DOWN) {
+        else if (ev.type == ALLEGRO_EVENT_KEY_DOWN) {//при нажатии на клавишу
             switch (ev.keyboard.keycode) {
-            case ALLEGRO_KEY_LEFT:
+            case ALLEGRO_KEY_LEFT://объект "принцесска" двигается влево
                 key[KEY_LEFT] = true;
                 break;
 
-            case ALLEGRO_KEY_RIGHT:
+            case ALLEGRO_KEY_RIGHT://объект "принцесска" двигается вправо
                 key[KEY_RIGHT] = true;
                 break;
             }
         }
-        else if (ev.type == ALLEGRO_EVENT_KEY_UP) {
+        else if (ev.type == ALLEGRO_EVENT_KEY_UP) {//при отпускании клавиши
             switch (ev.keyboard.keycode) {
-            case ALLEGRO_KEY_LEFT:
+            case ALLEGRO_KEY_LEFT://объект заканчивает движение влево
                 key[KEY_LEFT] = false;
                 break;
 
-            case ALLEGRO_KEY_RIGHT:
+            case ALLEGRO_KEY_RIGHT://объект заканчивает движение вправо
                 key[KEY_RIGHT] = false;
                 break;
 
-            case ALLEGRO_KEY_ESCAPE:
+            case ALLEGRO_KEY_ESCAPE://при нажатии клавиши ESCAPE пользовательно выходит из программы
                 exit = true;
                 break;
             }
         }
 
-        if (redraw && al_is_event_queue_empty(event_queue)) {
+      if (redraw && al_is_event_queue_empty(event_queue)) {//прорисовка карты
             redraw = false;
-
-            al_clear_to_color(al_map_rgb(0, 0, 0));
 
             al_draw_scaled_bitmap(bmp,
                 0, 0,
@@ -167,29 +177,30 @@ int main(int argc, char **argv)
                 0);
 
 
-               al_draw_scaled_bitmap(bouncer,0, 20, al_get_bitmap_width(bouncer), al_get_bitmap_width(bouncer),
+               al_draw_scaled_bitmap(bouncer,0, 20, al_get_bitmap_width(bouncer), al_get_bitmap_width(bouncer),//прорисовка героя (принцесски)
                bouncer_x, bouncer_y, 85, 95, 0);
-            frames_count++;
+
+            frames_count++;//счетчик звездочек
             if (frames_count >= level)
             {
                 level--;
                 frames_count = 0;
-                if (life > 0)
+                if (life > 0) //если жизни закончатся
                     gen( star);
             }
             if (life == 0) {
                 al_draw_textf(AllegroFont, al_map_rgb(255, 255, 255), SCREEN_W / 2, SCREEN_H / 2, ALLEGRO_ALIGN_CENTER, "GAME OVER!!! Total score: %i", star_c);
             };
 
-            for (int i = 0; i < STARS_ARRAY_SIZE; i++) {
-                if (star[i][0] >= 0)
-                {
+			for (int i = 0; i < STARS_ARRAY_SIZE; i++) {//прорисовка звёздочек
+				if (star[i][0] >= 0)
+				{
 
-                    al_draw_scaled_bitmap(image,
-                        0, 0, al_get_bitmap_width(image), al_get_bitmap_width(image),
-                        star[i][0], star[i][1], 40, 40, 0);
+					al_draw_scaled_bitmap(image,
+						0, 0, al_get_bitmap_width(image), al_get_bitmap_width(image),
+						star[i][0], star[i][1], 40, 40, 0);
 
-                    if (life > 0)
+                    if (life > 0)// "ловля" объектов главным героем
                         star[i][1] += 1;
                     int c = star[i][1] - bouncer_y;
                     if (c < 0)
@@ -198,12 +209,12 @@ int main(int argc, char **argv)
                     {
                         int r = star[i][0] - bouncer_x;
                         if (r < 0) { r *= -1; }
-                        if (r < 60)
+                        if (r < 60) 
                         {
                             star[i][0] = -1;
                             star_c++;
                         }
-                        else {
+                        else {//"Как мы теряем жизнь..."
                             life -= 1;
                             star[i][0] = -1;
                         }
@@ -212,15 +223,15 @@ int main(int argc, char **argv)
                 }
             }
 
-            al_draw_textf(AllegroFont, al_map_rgb(0, 0, 0), SCREEN_W - 40, SCREEN_H - 25, ALLEGRO_ALIGN_RIGHT, "STARS COLLECTED:%i", star_c);
-            al_draw_textf(AllegroFont, al_map_rgb(0, 0, 0), SCREEN_W - 610, SCREEN_H - 25, ALLEGRO_ALIGN_RIGHT, "LIFE:%i", life);
+            al_draw_textf(AllegroFont, al_map_rgb(0, 0, 0), SCREEN_W - 40, SCREEN_H - 25, ALLEGRO_ALIGN_RIGHT, "STARS COLLECTED:%i", star_c);//текст снизу справа
+            al_draw_textf(AllegroFont, al_map_rgb(0, 0, 0), SCREEN_W - 610, SCREEN_H - 25, ALLEGRO_ALIGN_RIGHT, "LIFE:%i", life);//текст снизу слева
 
             al_flip_display();
         }
 
 
     }
-
+	//удаление
     al_destroy_bitmap(bouncer);
     al_destroy_timer(timer);
     al_destroy_display(display);
