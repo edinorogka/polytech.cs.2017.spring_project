@@ -1,6 +1,16 @@
+/** @file Gen.c
+*  @brief Функция, генерирующая падающие звезды
+*
+*
+*@author Larina Anna - anna_larina_@bk.ru \n
+*@author Latyshewa Regina - reggamer@mail.ru*/
 #include "libs.h"
 int count = 0;
+/** \fn void gen( int star[STARS_ARRAY_SIZE][2])
+Функция создает звезды в рандомном порядке
+\param  int star[STARS_ARRAY_SIZE][2] - матрица параметра звезд
 
+*/
 void gen( int star[STARS_ARRAY_SIZE][2]) {
 	int i;
 	int x;
