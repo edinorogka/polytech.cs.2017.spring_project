@@ -1,5 +1,5 @@
 /** @file Gen.c
-*  @brief Функция, генерирующая падающие звезды
+*  @brief функция, генерирующая звёзды
 *
 *@author Larina Anna - anna_larina_99@bk.ru \n
 *@author Latyshewa Regina - reggamer@mail.ru*/
