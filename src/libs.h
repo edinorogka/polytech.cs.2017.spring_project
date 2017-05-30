@@ -1,3 +1,7 @@
+/** @file lib.h
+*@author Larina Anna - anna_larina_99@bk.ru \n
+*@author Latyshewa Regina - reggamer@mail.ru*/
+
 #ifndef LIBS_H
 #define LIBS_H
 #include <stdio.h>
