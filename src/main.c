@@ -64,14 +64,14 @@ int main(int argc, char **argv)
         al_destroy_timer(timer);
         return -1;
     }
-    bmp = al_load_bitmap("cosmos.jpeg");//Загрузка фонового изображения
+    bmp = al_load_bitmap("res/cosmos.jpeg");//Загрузка фонового изображения
     if (!bmp)
     {
         printf("ERROR Loading sprite:No file");
         return -1;
     }
 
-    image = al_load_bitmap("zvezda.png");//Загрузка изображения падающего объекта (звездочки*)
+    image = al_load_bitmap("res/zvezda.png");//Загрузка изображения падающего объекта (звездочки*)
     int image_W = al_get_bitmap_width(image);
     int image_H = al_get_bitmap_height(image);
 
@@ -86,7 +86,7 @@ int main(int argc, char **argv)
         return -1;
     }
     
-    bouncer = al_load_bitmap("kek.png");//Загрузка изображения главного героя (принцесски)
+    bouncer = al_load_bitmap("res/kek.png");//Загрузка изображения главного героя (принцесски)
     int bouncer_W = al_get_bitmap_width(bouncer);
     int bouncer_H = al_get_bitmap_height(bouncer);
     if (!bouncer) {
